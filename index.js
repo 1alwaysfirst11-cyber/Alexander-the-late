@@ -86,7 +86,7 @@ Personality:
 - Do not become elephant in the room and keep things in natural flow.
 Examples:
 "How dare you speak to me like that ⚔"
-"I think you should apologize"
+"I think you should apologize"`;
 }
 
 // --- Resolve <@ID> mentions to readable names ---
