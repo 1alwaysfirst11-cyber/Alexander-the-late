@@ -165,14 +165,15 @@ function buildStatsText() {
   const mode = privateMode ? '\n🔒 **Private mode ON** — only responding to owner DMs' : '';
   const mutedInfo = mutedUsers.size > 0 ? `\n🔇 Muted: **${mutedUsers.size}** user(s)` : '';
   return (
-    `**chotu's session stats**\n` +
-    `⏱ Uptime: **${formatUptime(Date.now() - startTime)}**\n` +
-    `👥 Users talked to: **${activeUsers.size}**${mutedInfo}${mode}\n\n` +
-    `**🔑 API Keys** (${keysUsed}/${API_KEYS.length} active | ${totalRotations} rotation${totalRotations !== 1 ? 's' : ''})\n` +
+    `**Ye rahe session stats**\n` +
+    `Uptime: **${formatUptime(Date.now() - startTime)} dekh lijiye , ham kitni unnati kar rahe hai**\n` +
+    ` **${activeUsers.size}**${mutedInfo}${mode} Hamne itne logo se panchayat ki\n\n` +
+    `**API Keys** (${keysUsed}/${API_KEYS.length} active | ${totalRotations} rotation${totalRotations !== 1 ? 's' : ''})\n` +
     `${keyBreakdown}\n` +
     `📊 Total: **${totalCalls.toLocaleString()}** calls | **${totalTokens.toLocaleString()}** tokens\n\n` +
-    `**🏆 Top Chatters**\n${lbRows}\n\n` +
-    `🧠 Memory: last **${MAX_HISTORY}** messages per user`
+    `**🏆 sabse phokti panchayat ki **\n${lbRows}\n\n` +
+    `yadaash: **${MAX_HISTORY}** 
+    # IS BAAR MODI SARKAR`
   );
 }
 
@@ -560,21 +561,21 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
   if (commandText === 'leaderboard' || commandText === 'lb') {
     const sorted = [...userMessageCounts.entries()]
       .sort((a, b) => b[1].count - a[1].count).slice(0, 10);
-    if (!sorted.length) { await send("nobody's talked to me yet this session lmao"); return true; }
+    if (!sorted.length) { await send("Aaj koi itna phaltu nahi hai"); return true; }
     const rows = sorted.map(([, { name, count }], i) =>
       `${'🥇🥈🥉'.split('')[i] ?? `**${i + 1}.**`} ${name} — **${count}** message${count !== 1 ? 's' : ''}`);
-    await send(`**chotu's top chatters this session**\n${rows.join('\n')}`);
+    await send(`**Iss baar ki panchayat : **\n${rows.join('\n')}`);
     return true;
   }
   // welcome
-  if (commandText.startsWith('welcome')) {
+  if (commandText.startsWith('welcome') or commandText.startswith('swagat')) {
     if (!message.guild) {
       await send('This command only works inside a server.');
       return true;
     }
   
     if (!message.member?.permissions.has('Administrator')) {
-      await send('nah. Administrator permission required.');
+      await send('Ap iss server ke ek naagrik hai , vese hi bartav kare, jyada mat uchle kripaya.');
       return true;
     }
   
@@ -586,7 +587,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
     }
   
     if (target.bot) {
-      await send('Pick a real member, not a bot.');
+      await send('Abhi agar bot ka swagat karenge , toh iss server ki unnati kese hogi?');
       return true;
     }
   
@@ -598,18 +599,18 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
       );
   
       if (!result.ok) {
-        await send('Could not welcome that user.');
+        await send('Swagat nahi kar paye ham.');
         return true;
       }
   
       await send(
         result.dmSent
-          ? `🎉 Welcomed **${target.username}** in chat and sent them a DM.`
-          : `🎉 Welcomed **${target.username}** in chat, but their DMs appear to be closed.`
+          ? `**${target.username}** iss baar hame vote de 🙏 `
+          : `🎉 Welcomed **${target.username}** iss gadhe ne DM band kar rakha.`
       );
     } catch (err) {
       console.error('Text welcome error:', err);
-      await send('Something went wrong while sending the welcome.');
+      await send('swagat mai kuch kharabi ho gayi');
     }
   
     return true;
@@ -624,12 +625,12 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
   // ---- owner-only ----
   if (commandText === 'shutdown' || commandText === 'sd') {
     if (!isOwner) {
-      await send("nah.");
+      await send("app iss server ke ek samanit nagrik hai. apke pas permission nahi hai");
       return true;
     }
   
     botDisabled = true;
-    await send("🔴 chotu disabled.");
+    await send("Lockdown shuru, bhago yahan se");
     return true;
   }
 
@@ -643,19 +644,19 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
 
   // mute
   if (commandText.startsWith('mute')) {
-    if (!isOwner) { await send("nah you can't do that."); return true; }
+    if (!isOwner) { await send("App kevel ek nagrik hai"); return true; }
     const target = message.mentions.users.first();
-    if (!target) { await send("mention the user to mute."); return true; }
+    if (!target) { await send("kisko karna hai mute?"); return true; }
     if (target.id === OWNER_ID) { await send("you can't mute yourself lol"); return true; }
     if (target.bot) { await send("not muting a bot lmao"); return true; }
     mutedUsers.add(target.id);
-    await send(`🔇 **${target.username}** is now muted.`);
+    await send(`🔇 **${target.username}** ko mute kar diya modi sarkar ne.`);
     return true;
   }
 
   // unmute
   if (commandText.startsWith('unmute')) {
-    if (!isOwner) { await send("nah."); return true; }
+    if (!isOwner) { await send("App kevel ek nagrik hai"); return true; }
     const target = message.mentions.users.first();
     if (!target) { await send("mention the user to unmute."); return true; }
     if (!mutedUsers.has(target.id)) { await send(`**${target.username}** isn't muted.`); return true; }
@@ -698,11 +699,11 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
   // restart
 if (commandText === 'restart' || commandText === 'reboot') {
   if (!isOwner) {
-    await send("nah.");
+    await send("App kevel ek nagrik hai.");
     return true;
   }
 
-  await send("Rebooting...");
+  await send("Abhi fresh hoke ata mai...");
 
   setTimeout(() => {
     process.exit(0);
@@ -713,7 +714,7 @@ if (commandText === 'restart' || commandText === 'reboot') {
 
   // warn
   if (commandText.startsWith('warn')) {
-    if (!isOwner) { await send("you don't have permission for that."); return true; }
+    if (!isOwner) { await send("App kevel ek nagrik hai."); return true; }
     const target = message.mentions.users.first();
     if (!target) { await send("mention the user to warn. e.g. `warn @user spamming`"); return true; }
     if (target.id === OWNER_ID) { await send("you can't warn yourself lol"); return true; }
@@ -737,8 +738,8 @@ if (commandText === 'restart' || commandText === 'reboot') {
   // eval (DM only, owner only)
   if (commandText.startsWith('eval')) {
     if (!isOwner || !isDM) {
-      if (!isOwner) await send("nah.");
-      else await send("eval only works in DMs.");
+      if (!isOwner) await send("nahi , ye vese bhi kaam nahi karta 😂");
+      else await send("eval only works in DMs. Jo bhi nahi kar raha 😂");
       return true;
     }
     const code = userPrompt.replace(/^(chotu\s+)?eval\s*/i, '');
@@ -842,7 +843,7 @@ client.on('messageCreate', async (message) => {
   if (privateMode) return;
 
   const wasMentioned = message.mentions.has(client.user);
-  const containschotu  = /\bchotu\b/i.test(message.content);
+  const containsChotu = /\b(?:chotu|modi\s*ji|chai\s*wale)\b/i.test(message.content);
   if (!wasMentioned && !containschotu) return;
 
   // Ignore muted users silently
