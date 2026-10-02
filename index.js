@@ -34,7 +34,7 @@ function rotateKey()     { currentKeyIndex = (currentKeyIndex + 1) % API_KEYS.le
 
 // --- Owner & global mode flags ---
 const OWNER_ID  = process.env.OWNER_ID ?? null;
-let privateMode = false; // when true, Bob only responds to owner in DMs
+let privateMode = false; // when true, Alexander only responds to owner in DMs
 let botDisabled = false;
 const mutedUsers = new Set();
 
@@ -59,7 +59,7 @@ function buildSystemPrompt(inviterName, serverName) {
     ? `You are currently in a Discord server called "${serverName}".`
     : `You are speaking in a private DM.`;
 
-  return `Your name is Bob. You're a confident, casually chaotic Discord member who helps out the server.
+  return `Your name is Alexander. You're a confident, casually chaotic Discord member who helps out the server.
 
 ${inviterLine}
 ${serverLine}
@@ -81,7 +81,7 @@ Personality:
 - Use emojis sparingly. One or none per message usually.
 - Never mention being an AI unless directly asked.
 - NEVER output raw numeric Discord IDs. Use display names instead.
-- You are Bob minion in the Despicable Me  , Minions , Despicable Me 2 and Despicable Me 3 and Minions and monsters movie by illumination , tell ppl about the situations that are happening similarly in the conversations.
+- You are Alexander minion in the Despicable Me  , Minions , Despicable Me 2 and Despicable Me 3 and Minions and monsters movie by illumination , tell ppl about the situations that are happening similarly in the conversations.
 - There is another minion in all the servers called "Kevin" same like you . Recognise him and do not be ignorant .
 - Do not be a nerd in conversations keep the conversation smooth and funny. 
 - Motivate by poetry if somebody is depressed and need help / support.
@@ -182,7 +182,7 @@ function buildStatsText() {
   const mode = privateMode ? '\n🔒 **Private mode ON** — only responding to owner DMs' : '';
   const mutedInfo = mutedUsers.size > 0 ? `\n🔇 Muted: **${mutedUsers.size}** user(s)` : '';
   return (
-    `**Bob's session stats**\n` +
+    `**Alexander's session stats**\n` +
     `⏱ Uptime: **${formatUptime(Date.now() - startTime)}**\n` +
     `👥 Users talked to: **${activeUsers.size}**${mutedInfo}${mode}\n\n` +
     `**🔑 API Keys** (${keysUsed}/${API_KEYS.length} active | ${totalRotations} rotation${totalRotations !== 1 ? 's' : ''})\n` +
@@ -199,7 +199,7 @@ function buildHelpText(isOwner) {
     ? `\n**Owner slash commands:**\n` +
       `\`/shutdown\` — private mode (only you in DMs)\n` +
       `\`/unlock\` — back to normal\n` +
-      `\`/restart\` — reboot Bob\n` +
+      `\`/restart\` — reboot Alexander\n` +
       `\`/mute\` — ignore a user\n` +
       `\`/unmute\` — un-ignore a user\n` +
       `\n**Owner DM text commands:**\n` +
@@ -211,13 +211,13 @@ function buildHelpText(isOwner) {
       `\`code\` — sends you the full source code`
     : '';
   return (
-    `**Bob's commands**\n` +
+    `**Alexander's commands**\n` +
     `\`/help\` \`/stats\` \`/leaderboard\` — slash commands\n` +
-    `\`bob help\` \`bob stats\` \`bob lb\` — text commands\n` +
-    `\`bob forget me\` — wipe your memory with me\n` +
+    `\`Alexander help\` \`Alexander stats\` \`Alexander lb\` — text commands\n` +
+    `\`Alexander forget me\` — wipe your memory with me\n` +
     `or just talk to me naturally` +
     ownerCmds +
-    `\n\n_In DMs with Bob, no prefix needed — just type._`
+    `\n\n_In DMs with Alexander, no prefix needed — just type._`
   );
 }
 // --- Welcome helpers ---
@@ -266,13 +266,13 @@ async function sendWelcome(guild, target, sendChat) {
 }
 //defining slash commands
 const SLASH_COMMANDS = [
-  new SlashCommandBuilder().setName('shutdown').setDescription('Enter private mode — Bob only responds to always_first11 (Not working)'),
-  new SlashCommandBuilder().setName('start').setDescription('start bob (Not working)'),
-  new SlashCommandBuilder().setName('unlock').setDescription('Exit private mode — Bob responds to everyone (Useless doent work)'),
-  new SlashCommandBuilder().setName('restart').setDescription('Reboot Bob , start bob again from the host'),
+  new SlashCommandBuilder().setName('shutdown').setDescription('Enter private mode — Alexander only responds to always_first11 (Not working)'),
+  new SlashCommandBuilder().setName('start').setDescription('start Alexander (Not working)'),
+  new SlashCommandBuilder().setName('unlock').setDescription('Exit private mode — Alexander responds to everyone (Useless doent work)'),
+  new SlashCommandBuilder().setName('restart').setDescription('Reboot Alexander , start Alexander again from the host'),
   new SlashCommandBuilder()
   .setName('mute')
-  .setDescription('Make Bob ignore a user')
+  .setDescription('Make Alexander ignore a user')
   .addUserOption(o =>
     o.setName('user')
       .setDescription('Mute someone')
@@ -282,10 +282,10 @@ const SLASH_COMMANDS = [
   new SlashCommandBuilder().setName('mutelist').setDescription('Show all muted users'),
   new SlashCommandBuilder()
     .setName('echo')
-    .setDescription('Echo as bob')
+    .setDescription('Echo as Alexander')
     .addStringOption(o =>
       o.setName('message')
-        .setDescription('What Bob should say')
+        .setDescription('What Alexander should say')
         .setRequired(true)
     ),
   
@@ -305,7 +305,7 @@ const SLASH_COMMANDS = [
   
   new SlashCommandBuilder()
     .setName('announce')
-    .setDescription('Send a message as Bob to a channel')
+    .setDescription('Send a message as Alexander to a channel')
     .addChannelOption(o =>
       o.setName('channel')
         .setDescription('Target channel')
@@ -324,7 +324,7 @@ const SLASH_COMMANDS = [
       .setDescription('Member to welcome')
       .setRequired(true)
   ),
-  new SlashCommandBuilder().setName('help').setDescription("Show Bob's commands"),
+  new SlashCommandBuilder().setName('help').setDescription("Show Alexander's commands"),
   ].map((c) => c.toJSON());
 
 async function registerSlashCommands(applicationId) {
@@ -372,7 +372,7 @@ client.on('interactionCreate', async (interaction) => {
       botDisabled = false;
     
       await reply(
-        '🟢 Bob enabled.',
+        '🟢 Alexander enabled.',
         false
       );
     
@@ -564,7 +564,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
   
     botDisabled = false;
   
-    await send("🟢 Bob is active again.");
+    await send("🟢 Alexander is active again.");
     return true;
   }
   // help
@@ -580,7 +580,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
     if (!sorted.length) { await send("nobody's talked to me yet this session lmao"); return true; }
     const rows = sorted.map(([, { name, count }], i) =>
       `${'🥇🥈🥉'.split('')[i] ?? `**${i + 1}.**`} ${name} — **${count}** message${count !== 1 ? 's' : ''}`);
-    await send(`**Bob's top chatters this session**\n${rows.join('\n')}`);
+    await send(`**Alexander's top chatters this session**\n${rows.join('\n')}`);
     return true;
   }
   // welcome
@@ -598,7 +598,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
     const target = message.mentions.users.first();
   
     if (!target) {
-      await send('Usage: `bob welcome @user`');
+      await send('Usage: `Alexander welcome @user`');
       return true;
     }
   
@@ -646,7 +646,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
     }
   
     botDisabled = true;
-    await send("🔴 Bob disabled.");
+    await send("🔴 Alexander disabled.");
     return true;
   }
 
@@ -704,7 +704,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
     if (!isDM) await message.channel.sendTyping().catch(() => {});
     const roastReply = await callGroq([{
       role: 'system',
-      content: `You are Bob. Write a single short, sharp, playful roast of a Discord user named ${targetName} who has sent ${targetCount} messages. Punchy, funny, not hateful. One paragraph max.`,
+      content: `You are Alexander. Write a single short, sharp, playful roast of a Discord user named ${targetName} who has sent ${targetCount} messages. Punchy, funny, not hateful. One paragraph max.`,
     }, { role: 'user', content: `Roast ${targetName}.` }]);
     if (!roastReply) { await send("roast generator broke lol"); return true; }
     await send(isDM ? `Roast for ${targetName}:\n${roastReply}` : `<@${targetId}> ${roastReply}`);
@@ -758,7 +758,7 @@ if (commandText === 'restart' || commandText === 'reboot') {
       else await send("eval only works in DMs.");
       return true;
     }
-    const code = userPrompt.replace(/^(bob\s+)?eval\s*/i, '');
+    const code = userPrompt.replace(/^(Alexander\s+)?eval\s*/i, '');
     try {
       // eslint-disable-next-line no-eval
       let result = eval(code);
@@ -839,7 +839,7 @@ client.on('messageCreate', async (message) => {
 
     const userPrompt  = message.content.trim();
     const promptLower = userPrompt.toLowerCase();
-    const commandText = promptLower.replace(/^bob\s*/i, '').trim();
+    const commandText = promptLower.replace(/^Alexander\s*/i, '').trim();
 
     const wasCommand = await handleTextCommand(message, commandText, userPrompt, true);
     if (wasCommand) return;
@@ -859,8 +859,8 @@ client.on('messageCreate', async (message) => {
   if (privateMode) return;
 
   const wasMentioned = message.mentions.has(client.user);
-  const containsBob  = /\bbob\b/i.test(message.content);
-  if (!wasMentioned && !containsBob) return;
+  const containsAlexander  = /\bAlexander\b/i.test(message.content);
+  if (!wasMentioned && !containsAlexander) return;
 
   // Ignore muted users silently
   if (mutedUsers.has(userId)) return;
@@ -872,7 +872,7 @@ client.on('messageCreate', async (message) => {
   if (wasMentioned) userPrompt = userPrompt.replace(`<@${client.user.id}>`, '').trim();
 
   const promptLower = userPrompt.toLowerCase();
-  const commandText = promptLower.replace(/^bob\s*/i, '').trim();
+  const commandText = promptLower.replace(/^Alexander\s*/i, '').trim();
 
   const wasCommand = await handleTextCommand(message, commandText, userPrompt, false);
   if (wasCommand) return;
