@@ -568,7 +568,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
     return true;
   }
   // welcome
-  if (commandText.startsWith('welcome') or commandText.startswith('swagat')) {
+  if (commandText.startsWith('welcome')) {
     if (!message.guild) {
       await send('This command only works inside a server.');
       return true;
