@@ -34,7 +34,7 @@ function rotateKey()     { currentKeyIndex = (currentKeyIndex + 1) % API_KEYS.le
 
 // --- Owner & global mode flags ---
 const OWNER_ID  = process.env.OWNER_ID ?? null;
-let privateMode = false; // when true, Alexander only responds to owner in DMs
+let privateMode = false; // when true, chotu only responds to owner in DMs
 let botDisabled = false;
 const mutedUsers = new Set();
 
@@ -59,7 +59,7 @@ function buildSystemPrompt(inviterName, serverName) {
     ? `You are currently in a Discord server called "${serverName}".`
     : `You are speaking in a private DM.`;
 
-  return `Your name is Alexander. You're a confident, casually chaotic Discord member who helps out the server.
+  return `Your name is chotu. You're a confident, casually chaotic Discord member who helps out the server.
 
 ${inviterLine}
 ${serverLine}
@@ -72,14 +72,14 @@ Personality:
 - You were developed by always_first11 ( @1.always_first11)
 - Clear misconceptions about Hinduism when something is discussed about religion and religious sentiments.
 - Give proper serious response regarding Hinduism.  Never joke about it.
-- Be Direct and straightforward towards everything. Act like you are Alexander the Great.
+- Be Direct and straightforward towards everything. Act like you are chotu the Great.
 - Never apologize , act tough and like you are the king of the world , 
 - Don't lecture. Don't be wholesome or soft. Don't be overly energetic or cartoonish.
 - Respond like a king, not a worker
 - Use emojis sparingly. Use emoji when fits the best , but only the ones that are suitable for a king.
 - Never mention being an AI unless directly asked.
 - NEVER output raw numeric Discord IDs. Use display names instead.
-- You are Alexander, the great and never forget it. 
+- You are chotu, the great and never forget it. 
 - Do not be a nerd in conversations keep the conversation funny when suits to a King. 
 - Motivate by poetry if somebody is depressed and need help / support.
 - When someone asks for something inappropriate say "Fuck no"
@@ -177,7 +177,7 @@ function buildStatsText() {
   const mode = privateMode ? '\n🔒 **Private mode ON** — only responding to owner DMs' : '';
   const mutedInfo = mutedUsers.size > 0 ? `\n🔇 Muted: **${mutedUsers.size}** user(s)` : '';
   return (
-    `**Alexander's session stats**\n` +
+    `**chotu's session stats**\n` +
     `⏱ Uptime: **${formatUptime(Date.now() - startTime)}**\n` +
     `👥 Users talked to: **${activeUsers.size}**${mutedInfo}${mode}\n\n` +
     `**🔑 API Keys** (${keysUsed}/${API_KEYS.length} active | ${totalRotations} rotation${totalRotations !== 1 ? 's' : ''})\n` +
@@ -194,7 +194,7 @@ function buildHelpText(isOwner) {
     ? `\n**Owner slash commands:**\n` +
       `\`/shutdown\` — private mode (only you in DMs)\n` +
       `\`/unlock\` — back to normal\n` +
-      `\`/restart\` — reboot Alexander\n` +
+      `\`/restart\` — reboot chotu\n` +
       `\`/mute\` — ignore a user\n` +
       `\`/unmute\` — un-ignore a user\n` +
       `\n**Owner DM text commands:**\n` +
@@ -206,13 +206,13 @@ function buildHelpText(isOwner) {
       `\`code\` — sends you the full source code`
     : '';
   return (
-    `**Alexander's commands**\n` +
+    `**chotu's commands**\n` +
     `\`/help\` \`/stats\` \`/leaderboard\` — slash commands\n` +
-    `\`Alexander help\` \`Alexander stats\` \`Alexander lb\` — text commands\n` +
-    `\`Alexander forget me\` — wipe your memory with me\n` +
+    `\`chotu help\` \`chotu stats\` \`chotu lb\` — text commands\n` +
+    `\`chotu forget me\` — wipe your memory with me\n` +
     `or just talk to me naturally` +
     ownerCmds +
-    `\n\n_In DMs with Alexander, no prefix needed — just type._`
+    `\n\n_In DMs with chotu, no prefix needed — just type._`
   );
 }
 // --- Welcome helpers ---
@@ -261,13 +261,13 @@ async function sendWelcome(guild, target, sendChat) {
 }
 //defining slash commands
 const SLASH_COMMANDS = [
-  new SlashCommandBuilder().setName('shutdown').setDescription('Enter private mode — Alexander only responds to always_first11 (Not working)'),
-  new SlashCommandBuilder().setName('start').setDescription('start Alexander (Not working)'),
-  new SlashCommandBuilder().setName('unlock').setDescription('Exit private mode — Alexander responds to everyone (Useless doent work)'),
-  new SlashCommandBuilder().setName('restart').setDescription('Reboot Alexander , start Alexander again from the host'),
+  new SlashCommandBuilder().setName('shutdown').setDescription('Enter private mode — chotu only responds to always_first11 (Not working)'),
+  new SlashCommandBuilder().setName('start').setDescription('start chotu (Not working)'),
+  new SlashCommandBuilder().setName('unlock').setDescription('Exit private mode — chotu responds to everyone (Useless doent work)'),
+  new SlashCommandBuilder().setName('restart').setDescription('Reboot chotu , start chotu again from the host'),
   new SlashCommandBuilder()
   .setName('mute')
-  .setDescription('Make Alexander ignore a user')
+  .setDescription('Make chotu ignore a user')
   .addUserOption(o =>
     o.setName('user')
       .setDescription('Mute someone')
@@ -277,10 +277,10 @@ const SLASH_COMMANDS = [
   new SlashCommandBuilder().setName('mutelist').setDescription('Show all muted users'),
   new SlashCommandBuilder()
     .setName('echo')
-    .setDescription('Echo as Alexander')
+    .setDescription('Echo as chotu')
     .addStringOption(o =>
       o.setName('message')
-        .setDescription('What Alexander should say')
+        .setDescription('What chotu should say')
         .setRequired(true)
     ),
   
@@ -300,7 +300,7 @@ const SLASH_COMMANDS = [
   
   new SlashCommandBuilder()
     .setName('announce')
-    .setDescription('Send a message as Alexander to a channel')
+    .setDescription('Send a message as chotu to a channel')
     .addChannelOption(o =>
       o.setName('channel')
         .setDescription('Target channel')
@@ -319,7 +319,7 @@ const SLASH_COMMANDS = [
       .setDescription('Member to welcome')
       .setRequired(true)
   ),
-  new SlashCommandBuilder().setName('help').setDescription("Show Alexander's commands"),
+  new SlashCommandBuilder().setName('help').setDescription("Show chotu's commands"),
   ].map((c) => c.toJSON());
 
 async function registerSlashCommands(applicationId) {
@@ -367,7 +367,7 @@ client.on('interactionCreate', async (interaction) => {
       botDisabled = false;
     
       await reply(
-        '🟢 Alexander enabled.',
+        '🟢 chotu enabled.',
         false
       );
     
@@ -559,7 +559,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
   
     botDisabled = false;
   
-    await send("🟢 Alexander is active again.");
+    await send("🟢 chotu is active again.");
     return true;
   }
   // help
@@ -575,7 +575,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
     if (!sorted.length) { await send("nobody's talked to me yet this session lmao"); return true; }
     const rows = sorted.map(([, { name, count }], i) =>
       `${'🥇🥈🥉'.split('')[i] ?? `**${i + 1}.**`} ${name} — **${count}** message${count !== 1 ? 's' : ''}`);
-    await send(`**Alexander's top chatters this session**\n${rows.join('\n')}`);
+    await send(`**chotu's top chatters this session**\n${rows.join('\n')}`);
     return true;
   }
   // welcome
@@ -593,7 +593,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
     const target = message.mentions.users.first();
   
     if (!target) {
-      await send('Usage: `Alexander welcome @user`');
+      await send('Usage: `chotu welcome @user`');
       return true;
     }
   
@@ -641,7 +641,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
     }
   
     botDisabled = true;
-    await send("🔴 Alexander disabled.");
+    await send("🔴 chotu disabled.");
     return true;
   }
 
@@ -699,7 +699,7 @@ async function handleTextCommand(message, commandText, userPrompt, isDM) {
     if (!isDM) await message.channel.sendTyping().catch(() => {});
     const roastReply = await callGroq([{
       role: 'system',
-      content: `You are Alexander. Write a single short, sharp, playful roast of a Discord user named ${targetName} who has sent ${targetCount} messages. Punchy, funny, not hateful. One paragraph max.`,
+      content: `You are chotu. Write a single short, sharp, playful roast of a Discord user named ${targetName} who has sent ${targetCount} messages. Punchy, funny, not hateful. One paragraph max.`,
     }, { role: 'user', content: `Roast ${targetName}.` }]);
     if (!roastReply) { await send("roast generator broke lol"); return true; }
     await send(isDM ? `Roast for ${targetName}:\n${roastReply}` : `<@${targetId}> ${roastReply}`);
@@ -753,7 +753,7 @@ if (commandText === 'restart' || commandText === 'reboot') {
       else await send("eval only works in DMs.");
       return true;
     }
-    const code = userPrompt.replace(/^(Alexander\s+)?eval\s*/i, '');
+    const code = userPrompt.replace(/^(chotu\s+)?eval\s*/i, '');
     try {
       // eslint-disable-next-line no-eval
       let result = eval(code);
@@ -834,7 +834,7 @@ client.on('messageCreate', async (message) => {
 
     const userPrompt  = message.content.trim();
     const promptLower = userPrompt.toLowerCase();
-    const commandText = promptLower.replace(/^Alexander\s*/i, '').trim();
+    const commandText = promptLower.replace(/^chotu\s*/i, '').trim();
 
     const wasCommand = await handleTextCommand(message, commandText, userPrompt, true);
     if (wasCommand) return;
@@ -854,8 +854,8 @@ client.on('messageCreate', async (message) => {
   if (privateMode) return;
 
   const wasMentioned = message.mentions.has(client.user);
-  const containsAlexander  = /\bAlexander\b/i.test(message.content);
-  if (!wasMentioned && !containsAlexander) return;
+  const containschotu  = /\bchotu\b/i.test(message.content);
+  if (!wasMentioned && !containschotu) return;
 
   // Ignore muted users silently
   if (mutedUsers.has(userId)) return;
@@ -867,7 +867,7 @@ client.on('messageCreate', async (message) => {
   if (wasMentioned) userPrompt = userPrompt.replace(`<@${client.user.id}>`, '').trim();
 
   const promptLower = userPrompt.toLowerCase();
-  const commandText = promptLower.replace(/^Alexander\s*/i, '').trim();
+  const commandText = promptLower.replace(/^chotu\s*/i, '').trim();
 
   const wasCommand = await handleTextCommand(message, commandText, userPrompt, false);
   if (wasCommand) return;
