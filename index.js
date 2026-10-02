@@ -843,7 +843,7 @@ client.on('messageCreate', async (message) => {
   if (privateMode) return;
 
   const wasMentioned = message.mentions.has(client.user);
-  const containsChotu = /\b(?:chotu|modi\s*ji|chai\s*wale)\b/i.test(message.content);
+  const containschotu = /\b(?:chotu|modi|modi\s*ji|chai\s*wale)\b/i.test(message.content);
   if (!wasMentioned && !containschotu) return;
 
   // Ignore muted users silently
