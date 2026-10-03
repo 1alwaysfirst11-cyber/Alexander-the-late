@@ -214,15 +214,15 @@ function buildHelpText(isOwner) {
 
 function buildWelcomeChatText(user, guild) {
   return (
-    `🎉 Welcome ${user} to **${guild.name}**!\n` +
-    `Glad to have you here — read the rules and enjoy your stay.`
+    `🎉 ${user}**${guild.name}** Apka swagat hai!\n` +
+    `Enjoy your stay and agli baar hame hi vote de 🙏`
   );
 }
 
 function buildWelcomeDMText(user, guild) {
   return (
-    `👋 Welcome to **${guild.name}**, ${user.username}!\n\n` +
-    `Glad to have you here. Please check the server rules and have fun.`
+    ` **${guild.name}** mai aapka swagat hai, ${user.username}!\n\n` +
+    `Iss baar hame hi vote dijiyega.`
   );
 }
 
